@@ -1,7 +1,8 @@
+package battleship.model;
+
 public enum ShootResult {
-	MISS,
 	HIT,
-	SINK,
+	MISS,
 	ERROR,
 	WIN
 }
