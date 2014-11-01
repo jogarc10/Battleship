@@ -6,15 +6,17 @@ import battleship.model.Board;
 
 public class Printer {
    
-  public void printGame(Game game) {
-  }
+	public void printGame(Game game) {
+	}
+  
+  	public void printBoard(Board board) {
+  		String strBoard = board.toString();
+  		System.out.println(strBoard);
+  	}
 
-  public void printBoard(Board board) {
-  }
+  	public void newOperation() {
+  	}
 
-  public void newOperation() {
-  }
-
-  public void displayResultOfShoot(ShootResult result) {
-  }
+  	public void displayResultOfShoot(ShootResult result) {
+  	}
 }
