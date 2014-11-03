@@ -101,7 +101,15 @@ public class UserInterface {
    *    -> Return a bidimensional vector with the location of the bullet
    */
   
-  public battleship.util.Vector askForShot() {
+  public Vector askForShot() {
+	  Vector shot;
+	  int x = 0, y = 0;
+	  
+	  System.out.println("Enter the coordinates x and y to shot");
+	  x = scanner.nextInt();
+	  y = scanner.nextInt();
+	  shot = new Vector(x,y);
+	  
 	  return null;
   }
 }
