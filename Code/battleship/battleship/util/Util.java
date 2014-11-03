@@ -16,9 +16,18 @@ public class Util {
    *    Return true if all the ships in the baord have been sunk
    */
   static public boolean isInputCorrect(Vector coordinates) {
-  /* {src_modifiers=static}*/
+	  boolean correct = true;
+	  
+	 if ((coordinates.getX() < 0) || (coordinates.getX() > game.DIM_X))
+	 {
+		 correct = false;
+	 }
+	 if ((coordinates.getY() < 0) || (coordinates.getY() > game.DIM_Y))
+	 {
+		 correct = false;
+	 }
 
-  return false;
+  return correct;
   }
 
   /** 
