@@ -41,6 +41,24 @@ public class Board {
 
   }
 
+  public boolean checkWinGame() {
+  	boolean livingShips = false;
+  	int i = 0;
+  	int j = 0;
+  	while ((i < DIMX) && !livingShips) {
+  		while((j < DIMY) && !livingShips) {
+  			if this.board[j][i].tile.equals(Tile.SHIP){
+  				livingShips = true;
+  			}
+  			j++;
+  		}
+  		i++;
+  	}  	
+
+  	return !livingShips;
+  }
+
+
   /** 
    *   
    *    Getter for private attribute Board
