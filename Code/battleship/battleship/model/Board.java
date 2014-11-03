@@ -274,9 +274,9 @@ public class Board {
 	  	int j = 0;
 	  	while ((i < width) && !livingShips) {
 	  		while((j < height) && !livingShips) {
-	  			if this.board[j][i].tile.equals(Tile.SHIP){
+	  			if ((board[j][i].getTile() == Tile.BOAT)) {
 	  				livingShips = true;
-	  			}	  			
+	  			}			
 	  			j++;
 	  		}
 	  		i++;
@@ -284,7 +284,6 @@ public class Board {
 	
 	  	return !livingShips;
 	}
-
 	/**
 	 *	Getter for private attribute Board
 	 **/
