@@ -6,13 +6,16 @@ import java.util.Scanner;
 
 import battleship.util.Army;
 import battleship.util.Ship;
+import battleship.util.Util;
 
 import battleship.util.Vector;
 
 public class UserInterface {
 
   private Scanner scanner = new Scanner (System.in);
-  public static Game game;
+  private static Game game;
+  private Util utilities;
+  
 
   /** 
    *   
