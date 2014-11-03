@@ -1,18 +1,26 @@
 package battleship.util;
 
-import battleship.util.Vector;
+import battleship.util.Ship;
 
-public class Ship {
+/** 
+ *   
+ *    Class to hold the ships while being received from UI
+ */
+public class Army {
 
-  /** 
-   *    It's first cell
-   */
-  public Vector from;
+  private Ship[] ships;
 
-  public Vector to; 
-
-  public Ship(Vector from, Vector to) {
-  	this.from = from;
-	this.to = to;
-  }
+  	public Army(int n) {
+  		this.ships = new Ship[n];
+  	}
+  
+	public Ship[] getShips() {
+		return ships;
+	}
+	
+	public void setShipInPosition(int n, Vector to, Vector from)
+	{
+		this.ships[n] = new Ship(to, from);
+	}
+  
 }
