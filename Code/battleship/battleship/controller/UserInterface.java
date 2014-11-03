@@ -81,17 +81,20 @@ public class UserInterface {
   public void askForCoordinatesVectors(Vector from, Vector to ) {
 	  int firstX, firstY, lastX, lastY;
 	  firstX = firstY = lastX = lastY = 0;
+	  String firstYString, lastYString;
 	  
 	  System.out.println("First Coordinate X");
 	  firstX = scanner.nextInt();
 	  System.out.println("First Coordinate Y");
-	  firstX = scanner.nextInt();
+	  firstYString = scanner.next();
+	  firstY = translate(firstYString);
 	  from = new Vector(firstX, firstY);
 	  
 	  System.out.println("Second Coordinate X");
-	  firstX = scanner.nextInt();
+	  lastX = scanner.nextInt();
 	  System.out.println("Second Coordinate Y");
-	  firstX = scanner.nextInt();
+	  lastYString = scanner.next();
+	  lastY = translate(lastYString);
 	  to = new Vector(lastX, lastY);
   }
   
@@ -104,12 +107,61 @@ public class UserInterface {
   public Vector askForShot() {
 	  Vector shot;
 	  int x = 0, y = 0;
+	  String yString;
 	  
 	  System.out.println("Enter the coordinates x and y to shot");
 	  x = scanner.nextInt();
-	  y = scanner.nextInt();
+	  yString = scanner.next();
+	  y = translate(yString);
 	  shot = new Vector(x,y);
 	  
 	  return null;
+  }
+  
+  public int translate(String string)
+  {
+	  int number = 0;
+	  if (string == "a")
+	  {
+		  number = 0;
+	  }
+	  else if (string == "b")
+	  {
+		  number = 1;
+	  }
+	  else if (string == "c")
+	  {
+		  number = 2;
+	  }
+	  else if (string == "d")
+	  {
+		  number = 3;
+	  }
+	  else if (string == "e")
+	  {
+		  number = 4;
+	  }
+	  else if (string == "f")
+	  {
+		  number = 5;
+	  }
+	  else if (string == "g")
+	  {
+		  number = 6;
+	  }
+	  else if (string == "h")
+	  {
+		  number = 7;
+	  }
+	  else if (string == "i")
+	  {
+		  number = 8;
+	  }
+	  else if (string == "j")
+	  {
+		  number = 9;
+	  }
+	  
+	  return number;
   }
 }
