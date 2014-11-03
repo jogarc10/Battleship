@@ -12,6 +12,7 @@ public class Ship {
   public Vector to; 
 
   public Ship(Vector from, Vector to) {
-
+      this.from = from;
+	    this.to = to;
   }
 }
