@@ -1,6 +1,7 @@
 package battleship.util;
 
 import battleship.model.Board;
+import battleship.util.Vector;
 
 public class Util {
 
@@ -14,7 +15,7 @@ public class Util {
    *   
    *    Return true if all the ships in the baord have been sunk
    */
-  static public boolean isInputCorrect(battleship.util.Vector coordinates) {
+  static public boolean isInputCorrect(Vector coordinates) {
   /* {src_modifiers=static}*/
 
   return false;
