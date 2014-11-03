@@ -1,9 +1,11 @@
 package battleship.util;
 
 import battleship.model.Board;
-import battleship.util.Vector;
+import battleship.model.Game;
 
 public class Util {
+	
+	private static Game game;
 
   static public boolean checkWinGame(Board board) {
   /* {src_modifiers=static}*/
@@ -17,8 +19,8 @@ public class Util {
    */
   static public boolean isInputCorrect(Vector coordinates) {
 	  boolean correct = true;
-	  
-	 if ((coordinates.getX() < 0) || (coordinates.getX() > game.DIM_X))
+
+	if ((coordinates.getX() < 0) || (coordinates.getX() > game.DIM_X))
 	 {
 		 correct = false;
 	 }
@@ -26,8 +28,7 @@ public class Util {
 	 {
 		 correct = false;
 	 }
-
-  return correct;
+	 return correct;
   }
 
   /** 
