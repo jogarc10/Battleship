@@ -265,7 +265,7 @@ public class Board {
 	}
 
 	/**
-	 *	checkWinGame. Pedro's code
+	 *	checkWinGame. Borja's code
 	 **/
 
 	public boolean checkWinGame() {
@@ -274,7 +274,7 @@ public class Board {
 	  	int j = 0;
 	  	while ((i < width) && !livingShips) {
 	  		while((j < height) && !livingShips) {
-	  			if ((board[j][i].getTile() == Tile.BOAT)) {
+	  			if (board[j][i].getTile() == Tile.BOAT) {
 	  				livingShips = true;
 	  			}			
 	  			j++;
@@ -284,6 +284,7 @@ public class Board {
 	
 	  	return !livingShips;
 	}
+	
 	/**
 	 *	Getter for private attribute Board
 	 **/
@@ -292,8 +293,6 @@ public class Board {
 		 return this;
 	 }
 
-	 // <= Esta función no tiene sentido...
-	 // Se hace en el constructor
 	 public void setBoard(Cell[][] board) {
 		 this.board = board;
 	 }
