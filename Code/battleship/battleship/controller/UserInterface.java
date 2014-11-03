@@ -3,11 +3,10 @@ package battleship.controller;
 import battleship.model.Game;
 
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 import battleship.util.Army;
-import battleship.util.Ship;
 import battleship.util.Util;
-
 import battleship.util.Vector;
 
 public class UserInterface {
@@ -15,6 +14,7 @@ public class UserInterface {
   private Scanner scanner = new Scanner (System.in);
   private static Game game;
   private Util utilities;
+  private final int shipNumber = 10;
   
 
   /** 
@@ -36,66 +36,45 @@ public class UserInterface {
    *    -> Prompt the user for the locations of his/her ships
    *    -> Return an instance of Army with those locations
    */
-  public Army askBoatPlaces() {
-	  Army army = new Army(10);
+  public void askBoatPlaces() {//was type Army before but i think is better void
+	  Army army = new Army(shipNumber);
 	  int boatNumber = 0;
+	  int BoatDimension = 5;
 	  Vector from, to;
 	  from = new Vector(0,0);
 	  to = new Vector(0,0);
+	  boolean error = false;
+	  StringBuilder stringbuilder;
+	  
+	  int numberOfDimY = 1;
+	  int y = 0;
 	  
 	  System.out.println("Insertyour positions for the ships");
-	  System.out.println("Ship dimension 5");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
 	  
-	  System.out.println("First ship dimension 4");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Second ship dimension 4");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("First ship dimension 3");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Second ship dimension 3");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Third ship dimension 3");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("First ship dimension 2");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Second ship dimension 2");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Third ship dimension 2");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  System.out.println("Fourth ship dimension 2");
-	  askForCoordinatesVectors(from, to);
-	  army.setShipInPosition(boatNumber, to, from);
-	  boatNumber++;
-	  
-	  
-	  return null;
+	  while(!error)
+		{
+		  System.out.println("Ship dimension");
+		  stringbuilder = new StringBuilder(BoatDimension);
+		  System.out.println(stringbuilder.toString());
+		  askForCoordinatesVectors(from, to);
+		  if (!utilities.isInputCorrect(from) || !utilities.isInputCorrect(to))
+		  {
+			  	error = true;
+			  	System.out.println("The coordinates are not valid");
+		  }
+		  else
+		  {
+			  army.setShipInPosition(boatNumber, to, from);
+			  boatNumber++;
+			  y++;
+			  if (y == numberOfDimY)
+			  {
+				  BoatDimension--;
+				  numberOfDimY++;
+				  y = 0;
+			  }
+		  }
+		}
   }
   
   //Asks for the cordinates of both extremes of a ship.
