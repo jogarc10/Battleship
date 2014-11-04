@@ -1,7 +1,8 @@
 package battleship.controller;
 
+import java.util.Random;
+
 import battleship.util.Army;
-import battleship.java.util.Random;
 import battleship.util.Util;
 import battleship.util.Vector;
 

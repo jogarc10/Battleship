@@ -21,7 +21,7 @@ public class UserInterface {
    *   
    *    Initialize the game and run the main loop
    */
-  static public void Main(String[] args) {
+  static public void main(String[] args) {
 	  System.out.println("Do you want to play battleship");
 	  Scanner input = new Scanner(System.in);
 	  String startTheGame = input.next();
