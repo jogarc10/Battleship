@@ -7,8 +7,15 @@ import battleship.util.Util;
 import battleship.util.Vector;
 
 public class AI {
-  final int NUMBER_OF_DIFERENT_SHIPS = 4;
+	final int NUMBER_OF_DIFERENT_SHIPS = 4;
 	final int SIZE_OF_BOARD = 10;
+	
+	public Vector aIShoot() { //Very rudimentary function just in order to have something for the first merge
+		Random randomGenerator = new Random();
+		Vector vector = new Vector (randomGenerator.nextInt(SIZE_OF_BOARD), randomGenerator.nextInt(SIZE_OF_BOARD));
+		
+		return vector;
+	}
 	
 	public Army generateShips() {
 		Army armyOfShips = new Army(SIZE_OF_BOARD);
