@@ -235,10 +235,12 @@ public class Board {
 		
 		for (int i = 0; i < height; i++) {
 			shipLength = 0;
-			originX = armyShips[i].getTo.getX();
-			originY = armyShips[i].getTo.getY();
-			endX = armyShips[i].getFrom.getX();
-			endY = armyShips[i].getFrom.getX();
+			
+			originX = armyShips[i].getTo().getX();
+			originY = armyShips[i].getTo().getY();
+			endX = armyShips[i].getFrom().getX();
+			endY = armyShips[i].getFrom().getX();
+
 			horizontalShip = false;
 			verticalShip = false;
 			
