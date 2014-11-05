@@ -1,6 +1,8 @@
 package battleship.controller;
 
+import battleship.model.Actor;
 import battleship.model.Game;
+import battleship.model.ShootResult;
 
 import java.util.Scanner;
 import java.lang.StringBuilder;
@@ -8,36 +10,43 @@ import java.lang.StringBuilder;
 import battleship.util.Army;
 import battleship.util.Util;
 import battleship.util.Vector;
+import battleship.view.Printer;
 
 public class UserInterface {
+	
+  private final int SHIP_NUMBER = 10;
 
-  private Scanner scanner = new Scanner (System.in);
+  private Scanner scanner;
   private static Game game;
   private Util utilities;
-  private final int shipNumber = 10;
   
+  //Constructor 
+  
+  public UserInterface (){
+	  scanner = new Scanner (System.in);  
+  }
 
   /** 
    *   
    *    Initialize the game and run the main loop
    */
   static public void main(String[] args) {
-	  System.out.println("Do you want to play battleship");
-	  Scanner input = new Scanner(System.in);
-	  String startTheGame = input.next();
-	  if ((startTheGame == "yes") || (startTheGame == "Yes"))
-	  {
-		  game = new Game();
-	  }
+	  UserInterface UI = new UserInterface();
+	  //System.out.println("Do you want to play battleship");
+	  //String startTheGame = UI.scanner.next();
+	  //if ((startTheGame == "yes") || (startTheGame == "Yes"))
+	  //{
+		  UI.battleship();
+	  //}
   }
-
+  
   /** 
    *   
    *    -> Prompt the user for the locations of his/her ships
    *    -> Return an instance of Army with those locations
    */
-  public void askBoatPlaces() {//was type Army before but i think is better void
-	  Army army = new Army(shipNumber);
+  public Army askBoatPlaces() {//was type Army before but i think is better void
+	  Army army = new Army(SHIP_NUMBER);
 	  int boatNumber = 0;
 	  int BoatDimension = 5;
 	  Vector from, to;
@@ -49,7 +58,7 @@ public class UserInterface {
 	  int numberOfDimY = 1;
 	  int y = 0;
 	  
-	  System.out.println("Insertyour positions for the ships");
+	  System.out.println("Insert your positions for the ships");
 	  
 	  while(!error)
 		{
@@ -75,6 +84,7 @@ public class UserInterface {
 			  }
 		  }
 		}
+	  return army;	  
   }
   
   //Asks for the cordinates of both extremes of a ship.
@@ -108,14 +118,20 @@ public class UserInterface {
 	  Vector shot;
 	  int x = 0, y = 0;
 	  String yString;
+	  boolean valid;
 	  
-	  System.out.println("Enter the coordinates x and y to shot");
-	  x = scanner.nextInt();
-	  yString = scanner.next();
-	  y = translate(yString);
-	  shot = new Vector(x,y);
+	  do {
+		  System.out.println("Enter the coordinates x and y to shot");
+		  x = scanner.nextInt();
+		  yString = scanner.next();
+		  y = translate(yString);
+		  shot = new Vector(x,y);
+		  valid = Util.isInputCorrect(shot);
+		  if (!valid)
+			  System.out.println("Invalid coordinates. Try again \n");
+	  } while (!valid);
 	  
-	  return null;
+	  return shot;
   }
   
   public int translate(String string)
@@ -164,4 +180,24 @@ public class UserInterface {
 	  
 	  return number;
   }
-}
+
+  //Controller of the game
+  public void battleship () {
+	  Game game = new Game();
+	  Printer printer = new Printer();
+	  Vector shot;
+	  ShootResult shotResult;
+	  
+	  printer.printGame(game);
+	  Army playerArmy = askBoatPlaces();
+	  
+	  game.placeShips(playerArmy, Actor.PLAYER);
+	  while (game.isFinished()) {
+		  printer.printGame(game);
+		  shot = askForShot();
+		  shotResult = game.shoot(shot);
+		  printer.printGame(game);
+		  printer.displayResultOfShoot(shotResult);			  
+	  };	 	  
+  }
+ }

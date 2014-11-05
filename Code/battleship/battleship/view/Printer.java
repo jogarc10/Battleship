@@ -7,6 +7,11 @@ import battleship.model.Board;
 public class Printer {
    
 	public void printGame(Game game) {
+		
+		System.out.println("\n                   CPU BOARD\n");
+		printBoard(game.getPlayerBoard());
+		System.out.println("\n                 PLAYER BOARD\n\n");
+		printBoard(game.getAiBoard());
 	}
   
   	public void printBoard(Board board) {

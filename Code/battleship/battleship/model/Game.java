@@ -34,7 +34,6 @@ public class Game {
   }
 
   public boolean placeShips(Army ships, Actor actor) {
- //CAMBIO DE VOID A BOOLEAN!!
 	   // -> Verifies the correctness of the locations 
 	  boolean validPositions = battleship.util.Util.areValidArmyPositions(ships);
 	  //  -> Places the Ships in the corresponding board 
@@ -61,4 +60,54 @@ public class Game {
 	  }  
   return result;
   }
+  
+  //Getters and Setters
+
+public boolean isFinished() {
+	return isFinished;
+}
+
+public void setFinished(boolean isFinished) {
+	this.isFinished = isFinished;
+}
+
+public Actor getWinner() {
+	return winner;
+}
+
+public void setWinner(Actor winner) {
+	this.winner = winner;
+}
+
+public Board getAiBoard() {
+	return aiBoard;
+}
+
+public void setAiBoard(Board aiBoard) {
+	this.aiBoard = aiBoard;
+}
+
+public Board getPlayerBoard() {
+	return playerBoard;
+}
+
+public void setPlayerBoard(Board playerBoard) {
+	this.playerBoard = playerBoard;
+}
+
+public Actor getTurn() {
+	return turn;
+}
+
+public void setTurn(Actor turn) {
+	this.turn = turn;
+}
+
+public ShootResult getResult() {
+	return result;
+}
+
+public void setResult(ShootResult result) {
+	this.result = result;
+}
 }

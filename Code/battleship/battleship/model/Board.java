@@ -13,6 +13,9 @@ public class Board {
 		width = dimx;
 	 	height = dimy;
 	 	board = new Cell[dimx][dimy];
+	 	for (int i = 0; i < dimx;i++)
+	 		for (int j = 0; j < dimy;j++)
+	 			board[i][j] = new Cell();
 	 	initializeFog(hasFog);
 	}
   
@@ -30,26 +33,52 @@ public class Board {
 	}
 
 	public String toString() {
-		String strBoard = null;
+		
+	
+		
+		String strBoard = "";
 		Tile t = Tile.EMPTY;
-	  
+		
+		//Numbers on the top
+		
+		strBoard += "    ";
+		for (int j = 0; j < width; j++)
+			strBoard += "  " + (j+1) + " ";
+		strBoard += "\n     ";
+		
+		//First line
+		
+		for (int j = 0; j < width-1; j++)
+			strBoard += "____";
+		strBoard += "___\n";
+		
+		//Body
+		
 		for (int i = 0; i < height; i++) {
+			strBoard += " " + (char)(i+65) + "  ";
 			for (int j = 0; j < width; j++) {
-			  
+				
 				t = board[i][j].getTile();
+				
+				strBoard += "|";
 			  
 				if (t == Tile.EMPTY) {
-					strBoard = strBoard + " ";
+					strBoard = strBoard + "_ _";
 				}
 				else if (t == Tile.WATER) {
-					strBoard = strBoard + "W";
+					strBoard = strBoard + "_W_";
 				}
 				else if (t == Tile.BOAT) {
-					strBoard = strBoard + "B";
-				}			  
+					strBoard = strBoard + "_B_";
+				}
+				
+				
 			}
-			strBoard = strBoard + "\n";
+			strBoard += "|\n";
 		}  
+		
+	
+		
 		return strBoard;
 	}
 

@@ -1,11 +1,15 @@
 package battleship.model;
 
 public class Cell {
+	
+	public Cell() {
+		tile = Tile.EMPTY;		
+	}
 
+	//Attributes
 	private boolean fog;
-
 	private Tile tile;
-
+	
 	public boolean isFog() {
 		return fog;
 	}
