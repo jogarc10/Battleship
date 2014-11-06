@@ -65,7 +65,7 @@ public class UserInterface {
 		  System.out.println("Ship dimension");
 		  stringbuilder = new StringBuilder(BoatDimension);
 		  System.out.println(stringbuilder.toString());
-		  askForCoordinatesVectors(from, to);
+		  askForCoordinatesVectors(from, to, BoatDimension);
 		  if (!utilities.isInputCorrect(from) || !utilities.isInputCorrect(to))
 		  {
 			  	error = true;
@@ -88,10 +88,10 @@ public class UserInterface {
   }
   
   //Asks for the cordinates of both extremes of a ship.
-  public void askForCoordinatesVectors(Vector from, Vector to ) {
-	  int firstX, firstY, lastX, lastY;
-	  firstX = firstY = lastX = lastY = 0;
-	  String firstYString, lastYString;
+  public void askForCoordinatesVectors(Vector from, Vector to, int lengthShip ) {
+	  int firstX, firstY;
+	  firstX = firstY = 0;
+	  String firstYString, dirString;
 	  
 	  System.out.println("First Coordinate X");
 	  firstX = scanner.nextInt();
@@ -100,12 +100,17 @@ public class UserInterface {
 	  firstY = translate(firstYString);
 	  from = new Vector(firstX, firstY);
 	  
-	  System.out.println("Second Coordinate X");
-	  lastX = scanner.nextInt();
-	  System.out.println("Second Coordinate Y");
-	  lastYString = scanner.next();
-	  lastY = translate(lastYString);
-	  to = new Vector(lastX, lastY);
+	  System.out.println("Direction(vertical or horizontal):");
+	  dirString = scanner.next();
+	  if(dirString == "vertical")
+	  {
+		  to = new Vector(firstX, firstY + lengthShip);
+	  }
+	  else if (dirString == "horizontal")
+	  {
+		  to = new Vector(firstX  + lengthShip, firstY);
+	  }
+	  
   }
   
   /** 
