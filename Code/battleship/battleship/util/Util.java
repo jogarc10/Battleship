@@ -6,13 +6,6 @@ import battleship.model.Game;
 public class Util {
 	
 	private static Game game;
-
-  static public boolean checkWinGame(Board board) {
-  /* {src_modifiers=static}*/
-
-  return false;
-  }
-
   /** 
    *   
    *    Return true if all the ships in the baord have been sunk
