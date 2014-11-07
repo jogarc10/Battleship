@@ -5,7 +5,6 @@ import battleship.model.Game;
 import battleship.model.ShootResult;
 
 import java.util.Scanner;
-import java.lang.StringBuilder;
 
 import battleship.util.Army;
 import battleship.util.Util;
@@ -17,13 +16,16 @@ public class UserInterface {
   private final int SHIP_NUMBER = 10;
 
   private Scanner scanner;
-  private static Game game;
-  private Util utilities;
+  private Game game;
+  private Printer printer;
+  private Vector to;
+  private Vector from;
   
-  //Constructor 
-  
+  //Constructor   
   public UserInterface (){
-	  scanner = new Scanner (System.in);  
+	  this.scanner = new Scanner (System.in);
+	  this.game = new Game();
+	  this.printer = new Printer();
   }
 
   /** 
@@ -34,6 +36,7 @@ public class UserInterface {
 	  UserInterface UI = new UserInterface();
 	  //System.out.println("Do you want to play battleship");
 	  //String startTheGame = UI.scanner.next();
+	  //startTheGame.toLowerCase();
 	  //if ((startTheGame == "yes") || (startTheGame == "Yes"))
 	  //{
 		  UI.battleship();
@@ -47,68 +50,70 @@ public class UserInterface {
    */
   public Army askBoatPlaces() {//was type Army before but i think is better void
 	  Army army = new Army(SHIP_NUMBER);
-	  int boatNumber = 0;
-	  int BoatDimension = 5;
-	  Vector from, to;
-	  from = new Vector(0,0);
-	  to = new Vector(0,0);
-	  boolean error = false;
-	  StringBuilder stringbuilder;
-	  
+	  Integer boatNumber = new Integer(1);
+	  Integer boatDimension = new Integer(5);
+	  this.from = new Vector(0,0);
+	  this.to = new Vector(0,0);
 	  int numberOfDimY = 1;
 	  int y = 0;
 	  
 	  System.out.println("Insert your positions for the ships");
 	  
-	  while(!error)
-		{
-		  System.out.println("Ship dimension");
-		  stringbuilder = new StringBuilder(BoatDimension);
-		  System.out.println(stringbuilder.toString());
-		  askForCoordinatesVectors(from, to, BoatDimension);
-		  if (!utilities.isInputCorrect(from) || !utilities.isInputCorrect(to))
+	  while(boatDimension > 3){
+		  System.out.println("Ship dimension: " + boatDimension.toString() + 
+				  				". You have " + boatNumber.toString() + 
+				  				" boat(s) still to place of this size.");
+		  askForCoordinatesVectors(boatDimension);
+		  if (!Util.isInputCorrect(this.from) || !Util.isInputCorrect(to))
 		  {
-			  	error = true;
 			  	System.out.println("The coordinates are not valid");
+			  	System.out.println("Try again...");
+			  	System.out.println("-----------------------------");
 		  }
 		  else
 		  {
-			  army.setShipInPosition(boatNumber, to, from);
-			  boatNumber++;
+			  army.appendShip(this.to, this.from);
+			  this.game.placeShips(army, this.game.getTurn());
+			  this.printer.printGame(this.game);
 			  y++;
+			  boatNumber--;
 			  if (y == numberOfDimY)
 			  {
-				  BoatDimension--;
+				  boatDimension--;
 				  numberOfDimY++;
 				  y = 0;
+				  boatNumber = numberOfDimY;
 			  }
 		  }
+		  
 		}
 	  return army;	  
   }
   
   //Asks for the cordinates of both extremes of a ship.
-  public void askForCoordinatesVectors(Vector from, Vector to, int lengthShip ) {
+  public void askForCoordinatesVectors(int lengthShip ) {
 	  int firstX, firstY;
-	  firstX = firstY = 0;
-	  String firstYString, dirString;
+	  firstX = 0;
+	  firstY = 0;
+	  String dirString, firstYString;
 	  
-	  System.out.println("First Coordinate X");
-	  firstX = scanner.nextInt();
-	  System.out.println("First Coordinate Y");
+	  System.out.println("First Coordinate X (a...j): ");
 	  firstYString = scanner.next();
+	  System.out.println("First Coordinate Y (1...10): ");
+	  firstX = scanner.nextInt() - 1;
+	  firstYString.toLowerCase();
 	  firstY = translate(firstYString);
-	  from = new Vector(firstX, firstY);
+	  this.from = new Vector(firstX, firstY);
+	  scanner.nextLine();
 	  
-	  System.out.println("Direction(vertical or horizontal):");
-	  dirString = scanner.next();
-	  if(dirString == "vertical")
-	  {
-		  to = new Vector(firstX, firstY + lengthShip);
+	  System.out.println("Direction(vertical or horizontal): ");
+	  dirString = scanner.nextLine();
+	  dirString.toLowerCase();
+	  if(dirString.equals("vertical")) {
+		  this.to = new Vector(firstX, firstY + lengthShip);
 	  }
-	  else if (dirString == "horizontal")
-	  {
-		  to = new Vector(firstX  + lengthShip, firstY);
+	  else if (dirString.equals("horizontal")){
+		  this.to = new Vector(firstX  + lengthShip, firstY);
 	  }
 	  
   }
@@ -127,9 +132,9 @@ public class UserInterface {
 	  
 	  do {
 		  System.out.println("Enter the coordinates x and y to shot");
-		  x = scanner.nextInt();
 		  yString = scanner.next();
 		  y = translate(yString);
+		  x = scanner.nextInt();
 		  shot = new Vector(x,y);
 		  valid = Util.isInputCorrect(shot);
 		  if (!valid)
@@ -138,48 +143,38 @@ public class UserInterface {
 	  
 	  return shot;
   }
-  
+    
   public int translate(String string)
   {
 	  int number = 0;
-	  if (string == "a")
-	  {
+	  if (string.equals("a")){
 		  number = 0;
 	  }
-	  else if (string == "b")
-	  {
+	  else if (string.equals("b")){
 		  number = 1;
 	  }
-	  else if (string == "c")
-	  {
+	  else if (string.equals("c")){
 		  number = 2;
 	  }
-	  else if (string == "d")
-	  {
+	  else if (string.equals("d")){
 		  number = 3;
 	  }
-	  else if (string == "e")
-	  {
+	  else if (string.equals("e")){
 		  number = 4;
 	  }
-	  else if (string == "f")
-	  {
+	  else if (string.equals("f")){
 		  number = 5;
 	  }
-	  else if (string == "g")
-	  {
+	  else if (string.equals("g")){
 		  number = 6;
 	  }
-	  else if (string == "h")
-	  {
+	  else if (string.equals("h")){
 		  number = 7;
 	  }
-	  else if (string == "i")
-	  {
+	  else if (string.equals("i")){
 		  number = 8;
 	  }
-	  else if (string == "j")
-	  {
+	  else if (string.equals("j")){
 		  number = 9;
 	  }
 	  
@@ -187,9 +182,7 @@ public class UserInterface {
   }
 
   //Controller of the game
-  public void battleship () {
-	  Game game = new Game();
-	  Printer printer = new Printer();
+  public void battleship () {	  
 	  Vector shot;
 	  ShootResult shotResult;
 	  
@@ -197,10 +190,15 @@ public class UserInterface {
 	  Army playerArmy = askBoatPlaces();
 	  
 	  game.placeShips(playerArmy, Actor.PLAYER);
-	  while (game.isFinished()) {
+	  
+	  Army aiArmy = battleship.controller.AI.generateShips();
+	  game.placeShips(aiArmy, Actor.AI);
+	  
+	  while (!game.isFinished()) {
 		  printer.printGame(game);
 		  shot = askForShot();
-		  shotResult = game.shoot(shot);
+		  shotResult = game.shoot(shot, this.game.getTurn());
+		  this.game.changeTurn();
 		  printer.printGame(game);
 		  printer.displayResultOfShoot(shotResult);			  
 	  };	 	  

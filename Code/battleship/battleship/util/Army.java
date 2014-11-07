@@ -9,18 +9,34 @@ import battleship.util.Ship;
 public class Army {
 
   private Ship[] ships;
+  private int count;
 
   	public Army(int n) {
   		this.ships = new Ship[n];
+  		this.count = 0;
   	}
   
 	public Ship[] getShips() {
 		return ships;
 	}
 	
-	public void setShipInPosition(int n, Vector to, Vector from)
+	public void appendShip(Vector to, Vector from)
 	{
-		this.ships[n] = new Ship(to, from);
+		this.ships[this.count] = new Ship(to, from);
+		this.setCount(this.getCount() + 1);
 	}
+
+	public void popShip() {
+		this.setCount(this.getCount() - 1);
+	}
+	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
   
 }

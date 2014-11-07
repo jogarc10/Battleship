@@ -8,7 +8,17 @@ public class Board {
 	private int width;
 	private int height;
 	private Cell[][] board;
-
+	/*
+	 static public void main(String args[]) {
+		Board board = new Board(10, 10, false);
+		Army army = new Army(1);
+		Printer printer = new Printer();
+		army.appendShip(new Vector(7, 3), new Vector(7, 2));
+		
+		board.placeShips(army);
+		printer.printBoard(board);
+	}
+*/
 	public Board(int dimx, int dimy, boolean hasFog) {
 		width = dimx;
 	 	height = dimy;
@@ -19,6 +29,13 @@ public class Board {
 	 	initializeFog(hasFog);
 	}
   
+	public Board() {
+		// TODO Auto-generated constructor stub		
+		this.height = 0;
+		this.width = 0;
+		this.board = new Cell[0][0];		
+	}
+
 	public void initializeFog(boolean withFog) {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -32,18 +49,16 @@ public class Board {
 		}
 	}
 
-	public String toString() {
-		
-	
+	public String toString() {	
 		
 		String strBoard = "";
 		Tile t = Tile.EMPTY;
 		
 		//Numbers on the top
 		
-		strBoard += "    ";
+		strBoard += "     ";
 		for (int j = 0; j < width; j++)
-			strBoard += "  " + (j+1) + " ";
+			strBoard += " " + (char)(j+65) + "  ";
 		strBoard += "\n     ";
 		
 		//First line
@@ -55,7 +70,8 @@ public class Board {
 		//Body
 		
 		for (int i = 0; i < height; i++) {
-			strBoard += " " + (char)(i+65) + "  ";
+			strBoard += "  " + (i+1);
+			if(i + 1 < 10) strBoard = strBoard + " ";
 			for (int j = 0; j < width; j++) {
 				
 				t = board[i][j].getTile();
@@ -262,36 +278,36 @@ public class Board {
 		boolean horizontalShip, verticalShip;
 		Ship[] armyShips = ships.getShips();
 		
-		for (int i = 0; i < height; i++) {
+		for (int i = 0; i < ships.getCount(); i++) {
 			shipLength = 0;
 			
 			originX = armyShips[i].getTo().getX();
 			originY = armyShips[i].getTo().getY();
 			endX = armyShips[i].getFrom().getX();
-			endY = armyShips[i].getFrom().getX();
+			endY = armyShips[i].getFrom().getY();
 
 			horizontalShip = false;
 			verticalShip = false;
 			
-			// Knows if the board is horizontal or vertical
-			if (originX - endX == 0) {
-				horizontalShip = true; // Ship with the same x
-				shipLength =  endY - originY + 1; // Example: (2,2) y (2,4) > 4 - 2 = 2 + 1 = 3
+			// Knows if the ship is horizontal or vertical
+			if (originX  == endX) {
+				verticalShip = true; // Ship with the same x
+				shipLength =  endY - originY; // Example: (2,2) y (2,4) > 4 - 2 = 2 + 1 = 3
 			}
-			else if (originY - endY == 0) {
-				verticalShip = true; // Ship with the same y
-				shipLength =  endY - originY + 1; // Example: (1,1) y (5,1) > 5 - 1 = 4 + 1 = 5 
+			else if (originY  == endY) {
+				horizontalShip = true; // Ship with the same y
+				shipLength =  endX - originX; // Example: (1,1) y (5,1) > 5 - 1 = 4 + 1 = 5 
 			}
 			
 			// Place the Ships on the board
 			for (int shipIndex = 0; shipIndex < shipLength; shipIndex++) {
 				if (horizontalShip) {
-					board[originX + shipIndex][originY].setTile(Tile.BOAT); /* Inicializar celda a Boat */
+					board[originX][originY + shipIndex].setTile(Tile.BOAT); /* Inicializar celda a Boat */
 				}
 				else if (verticalShip) {
-					board[originX][originY  + shipIndex].setTile(Tile.BOAT); /* Inicializar celda a Boat */
+					board[originX + shipIndex][originY].setTile(Tile.BOAT); /* Inicializar celda a Boat */
 				}
-			}			
+			}
 		}
 	}
 
@@ -305,7 +321,7 @@ public class Board {
 	  	int j = 0;
 	  	while ((i < width) && !livingShips) {
 	  		while((j < height) && !livingShips) {
-	  			if (board[j][i].getTile() == Tile.BOAT) {
+	  			if (this.board[j][i].getTile() == Tile.BOAT) {
 	  				livingShips = true;
 	  			}			
 	  			j++;

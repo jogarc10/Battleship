@@ -1,11 +1,9 @@
 package battleship.util;
 
-import battleship.model.Board;
 import battleship.model.Game;
 
-public class Util {
+public class Util {	
 	
-	private static Game game;
   /** 
    *   
    *    Return true if all the ships in the baord have been sunk
@@ -13,11 +11,11 @@ public class Util {
   static public boolean isInputCorrect(Vector coordinates) {
 	  boolean correct = true;
 
-	if ((coordinates.getX() < 0) || (coordinates.getX() > game.DIM_X))
+	if ((coordinates.getX() < 0) || (coordinates.getX() > Game.DIM_X))
 	 {
 		 correct = false;
 	 }
-	 if ((coordinates.getY() < 0) || (coordinates.getY() > game.DIM_Y))
+	 if ((coordinates.getY() < 0) || (coordinates.getY() > Game.DIM_Y))
 	 {
 		 correct = false;
 	 }

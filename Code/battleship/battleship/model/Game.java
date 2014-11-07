@@ -27,7 +27,7 @@ public class Game {
   public Game() {
 	  this.winner = null;
 	  this.isFinished = false;
-	  this.aiBoard =  new Board (DIM_X,DIM_Y, true);
+	  this.aiBoard =  new Board (DIM_X,DIM_Y, false);
 	  this.playerBoard =  new Board (DIM_X,DIM_Y, false);
 	  this.turn = Actor.PLAYER; //Player always starts to play
 	  this.result = null;
@@ -35,7 +35,7 @@ public class Game {
 
   public boolean placeShips(Army ships, Actor actor) {
 	   // -> Verifies the correctness of the locations 
-	  boolean validPositions = battleship.util.Util.areValidArmyPositions(ships);
+	  boolean validPositions = true;//TODO: battleship.util.Util.areValidArmyPositions(ships);
 	  //  -> Places the Ships in the corresponding board 
 	  if (validPositions) {
 		  if(actor == Actor.AI)
@@ -46,13 +46,19 @@ public class Game {
 	  return validPositions;
   }
 
-  public ShootResult shoot(Vector shot) {
+  public ShootResult shoot(Vector shot, Actor turn) {
  //Executes the shoot and returns the result
 	  ShootResult result;
-	  if (battleship.util.Util.isInputCorrect(shot)) {  
-		 result = aiBoard.markShot(shot); 
-		 if (battleship.util.Util.checkWinGame(aiBoard)) {
-			 result = ShootResult.WIN;
+	  Board tmpboard = new Board();
+	  if (battleship.util.Util.isInputCorrect(shot)) {
+		 if (turn == Actor.AI) {
+			 tmpboard = this.playerBoard;
+		 } else if (turn == Actor.PLAYER) {
+			 tmpboard = this.aiBoard;
+		 }
+		 result = tmpboard.markShot(shot); 
+		 if (tmpboard.checkWinGame()) {
+			result = ShootResult.WIN;		
 		 }
 	  }
 	  else {
@@ -64,7 +70,7 @@ public class Game {
   //Getters and Setters
 
 public boolean isFinished() {
-	return isFinished;
+	return this.isFinished;
 }
 
 public void setFinished(boolean isFinished) {
@@ -72,7 +78,7 @@ public void setFinished(boolean isFinished) {
 }
 
 public Actor getWinner() {
-	return winner;
+	return this.winner;
 }
 
 public void setWinner(Actor winner) {
@@ -80,7 +86,7 @@ public void setWinner(Actor winner) {
 }
 
 public Board getAiBoard() {
-	return aiBoard;
+	return this.aiBoard;
 }
 
 public void setAiBoard(Board aiBoard) {
@@ -88,7 +94,7 @@ public void setAiBoard(Board aiBoard) {
 }
 
 public Board getPlayerBoard() {
-	return playerBoard;
+	return this.playerBoard;
 }
 
 public void setPlayerBoard(Board playerBoard) {
@@ -96,7 +102,7 @@ public void setPlayerBoard(Board playerBoard) {
 }
 
 public Actor getTurn() {
-	return turn;
+	return this.turn;
 }
 
 public void setTurn(Actor turn) {
@@ -104,10 +110,17 @@ public void setTurn(Actor turn) {
 }
 
 public ShootResult getResult() {
-	return result;
+	return this.result;
 }
 
 public void setResult(ShootResult result) {
 	this.result = result;
+}
+public void changeTurn(){
+	  if (this.turn == Actor.PLAYER) {
+		  this.turn = Actor.AI;
+	  } else if (this.turn == Actor.AI) {
+		  this.turn = Actor.PLAYER;
+	  }
 }
 }

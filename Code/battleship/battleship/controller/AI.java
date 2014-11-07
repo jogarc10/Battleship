@@ -7,8 +7,8 @@ import battleship.util.Util;
 import battleship.util.Vector;
 
 public class AI {
-	final int NUMBER_OF_DIFERENT_SHIPS = 4;
-	final int SIZE_OF_BOARD = 10;
+	final static int NUMBER_OF_DIFERENT_SHIPS = 4;
+	final static int SIZE_OF_BOARD = 10;
 	
 	public Vector aIShoot() { //Very rudimentary function just in order to have something for the first merge
 		Random randomGenerator = new Random();
@@ -17,7 +17,7 @@ public class AI {
 		return vector;
 	}
 	
-	public Army generateShips() {
+	public static Army generateShips() {
 		Army armyOfShips = new Army(SIZE_OF_BOARD);
 		Vector initialVector = new Vector(0, 0), finalVector = new Vector(0, 0);
 		Random randomGenerator = new Random();
@@ -29,13 +29,13 @@ public class AI {
 			    		initialVector.setY(randomGenerator.nextInt(SIZE_OF_BOARD)); //And you know you might
 			    		finalVector = newRandomEndOfShip(initialVector, NUMBER_OF_DIFERENT_SHIPS + 1 - i);
 			    	} while (!validShip(initialVector, finalVector)); //But hey I don't judge
-			    	armyOfShips.setShipInPosition(j, initialVector, finalVector); //Now you're gay for my code
+			    	armyOfShips.appendShip(initialVector, finalVector); //Now you're gay for my code
 			    } //PS: If you don't get this reference watch Silicon Valley, it's fucking great, also Pulp Fiction
 		    }
 		    return armyOfShips;
 	  }
   
-	private Vector newRandomEndOfShip(Vector initialShipVector, int length) {
+	private static Vector newRandomEndOfShip(Vector initialShipVector, int length) {
 		Vector finalShipVector = new Vector(initialShipVector.getX(), initialShipVector.getY());
 		Random randomGenerator = new Random();
 		int i =  randomGenerator.nextInt(4);
@@ -52,7 +52,7 @@ public class AI {
 		return finalShipVector;
 	}
   
-	private boolean validShip(Vector begging, Vector end) { //This function could probably go into util
+	private static boolean validShip(Vector begging, Vector end) { //This function could probably go into util
 		boolean valid = false; //I know it's awesome
 
 		 if (Util.isInputCorrect(begging) && Util.isInputCorrect(end)) //Simple yet powerful
