@@ -96,7 +96,10 @@ public class UserInterface {
 	  firstX = 0;
 	  firstY = 0;
 	  String dirString, firstYString;
-	  
+	 boolean validCord;
+	 
+	 do {
+		 validCord = true;
 	  System.out.println("First Coordinate X (a...j): ");
 	  firstYString = scanner.next();
 	  System.out.println("First Coordinate Y (1...10): ");
@@ -105,16 +108,32 @@ public class UserInterface {
 	  firstY = translate(firstYString);
 	  this.from = new Vector(firstX, firstY);
 	  scanner.nextLine();
+	  validCord = Util.isInputCorrect(from);
+	  if (!validCord)
+		  System.out.println("Coordinates out of bounds. Please, try again \n");
+	  else {System.out.println("Direction(vertical or horizontal): ");
+		  dirString = scanner.nextLine();
+		  dirString.toLowerCase();
+		  if(dirString.equals("vertical")) {
+			  if (firstX + lengthShip < Game.DIM_Y)
+				  this.to = new Vector(firstX, firstY + lengthShip);
+			  else {
+				  validCord = false;
+			  	  System.out.println("A portion of the ship is placed out of bounds.Try again \n ");
+			  }
+		  }
+		  else if (dirString.equals("horizontal")){
+			  if (firstY + lengthShip < Game.DIM_X)
+				  this.to = new Vector(firstX  + lengthShip, firstY);
+			  else {
+				  validCord = false;
+				  System.out.println("A portion of the ship is placed out of bounds.Try again \n ");
+			  }
+		  }
+	  }
+	 } while (!validCord);
 	  
-	  System.out.println("Direction(vertical or horizontal): ");
-	  dirString = scanner.nextLine();
-	  dirString.toLowerCase();
-	  if(dirString.equals("vertical")) {
-		  this.to = new Vector(firstX, firstY + lengthShip);
-	  }
-	  else if (dirString.equals("horizontal")){
-		  this.to = new Vector(firstX  + lengthShip, firstY);
-	  }
+	  
 	  
   }
   
