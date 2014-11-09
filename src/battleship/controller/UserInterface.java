@@ -70,6 +70,12 @@ public class UserInterface {
 			  	System.out.println("Try again...");
 			  	System.out.println("-----------------------------");
 		  }
+		  else if (!Util.areValidArmyPositions(from, to, game.getPlayerBoard()))
+		  {
+			  System.out.println("The ship cant be in contact with another one placed");
+			  System.out.println("Try again...");
+			  System.out.println("-----------------------------");
+		  }
 		  else
 		  {
 			  army.appendShip(this.to, this.from);
