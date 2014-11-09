@@ -343,4 +343,9 @@ public class Board {
 	 public void setBoard(Cell[][] board) {
 		 this.board = board;
 	 }
+	 
+	 public Tile cellValue(int x,int y)
+	 {
+		return this.board[x][y].getTile(); 
+	 }
 }
