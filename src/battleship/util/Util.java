@@ -46,7 +46,7 @@ public class Util {
   if (vertical)
   {
 	  coordinate = from.getX();
-	  while ((coordinate <= to.getX()) && valid)
+	  while ((coordinate < to.getX()) && valid)
 	  {
 		  valid = CheckArround(coordinate, from.getY(), board);
 		  coordinate++;
@@ -55,7 +55,7 @@ public class Util {
   else if (horizontal)
   {
 	  coordinate = from.getY();
-	  while ((coordinate <= to.getY()) && valid )
+	  while ((coordinate < to.getY()) && valid )
 	  {
 		  valid = CheckArround(from.getX(), coordinate, board);
 		  coordinate++;
