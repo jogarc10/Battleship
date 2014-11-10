@@ -53,6 +53,7 @@ public class Board {
 		
 		String strBoard = "";
 		Tile t = Tile.EMPTY;
+		boolean hasFog;
 		
 		//Numbers on the top
 		
@@ -73,12 +74,15 @@ public class Board {
 			strBoard += "  " + (i+1);
 			if(i + 1 < 10) strBoard = strBoard + " ";
 			for (int j = 0; j < width; j++) {
-				
-				t = board[i][j].getTile();
+				hasFog = false;
+				if(board[i][j].isFog())
+					hasFog = true;
+				else
+					t = board[i][j].getTile();
 				
 				strBoard += "|";
 			  
-				if (t == Tile.EMPTY) {
+				if (hasFog ||t == Tile.EMPTY ) {
 					strBoard = strBoard + "_ _";
 				}
 				else if (t == Tile.WATER) {
@@ -86,6 +90,9 @@ public class Board {
 				}
 				else if (t == Tile.BOAT) {
 					strBoard = strBoard + "_B_";
+				}
+				else if (t == Tile.SUNKEN) {
+					strBoard = strBoard + "_X_";
 				}
 				
 				
@@ -104,7 +111,7 @@ public class Board {
    *    -> Mark the Tile as corresponds (hit, sunken...)
    *    if the shoot hunde el barco, marcar las celdas como hundido
    */
-	public ShootResult markShot(Vector coordinates) {
+	public ShootResult markShot(Vector coordinates, Actor turn) {
 		int x, y;
 		Tile tile = Tile.EMPTY;
 		ShootResult result = ShootResult.ERROR;
@@ -112,9 +119,9 @@ public class Board {
 		x = coordinates.getX();
 		y = coordinates.getY();
 	  
-		if (board[x][y].isFog()) {
+		if (board[x][y].isFog() || turn == Actor.AI) { 
 	
-			board[x][y].setFog(false); // Deactive the fog
+			board[x][y].setFog(false); // Disable the fog if player is playing
 			tile = board[x][y].getTile(); // Get the title
 			
 			if (tile == Tile.BOAT) {
@@ -123,13 +130,17 @@ public class Board {
 				//   (ver si el resto de celdas están con fog = false)
 				// 2. En caso de que se haya hundido, marcarlo en el tablero.
 				result = ShootResult.HIT;
-				setSunkenShip(coordinates);
+				//if(is_sunken(coordinates)) {
+					//setSunkenShip(coordinates); 
+					//HAY QUE HACER LA FUNCION QUE HAGA CHECK DE SI EL BARCO HA SIDO HUNDIDO
+					//}
 			}
-			else if (tile == Tile.WATER) {
+			else if (tile == Tile.EMPTY) {
 				result = ShootResult.MISS; // Miss!!
+				board[x][y].setTile(Tile.WATER);
 			}			
 		}
-		else if(!board[x][y].isFog()) {
+		else {
 			result = ShootResult.ERROR; // The tile was shown before. sError!
 		}
 	  return result;
@@ -326,6 +337,7 @@ public class Board {
 	  			}			
 	  			j++;
 	  		}
+	  		j = 0;
 	  		i++;
 	  	}  	
 	

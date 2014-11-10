@@ -110,7 +110,7 @@ public class UserInterface {
 	  firstYString = scanner.next();
 	  System.out.println("First Coordinate Y (1...10): ");
 	  firstX = scanner.nextInt() - 1;
-	  firstYString.toLowerCase();
+	  firstYString = firstYString.toLowerCase();
 	  firstY = translate(firstYString);
 	  this.from = new Vector(firstX, firstY);
 	  scanner.nextLine();
@@ -119,7 +119,7 @@ public class UserInterface {
 		  System.out.println("Coordinates out of bounds. Please, try again \n");
 	  else {System.out.println("Direction(vertical or horizontal): ");
 		  dirString = scanner.nextLine();
-		  dirString.toLowerCase();
+		  dirString = dirString.toLowerCase();
 		  if(dirString.equals("vertical")) {
 			  if (firstX + lengthShip -1 < Game.DIM_Y)
 				  this.to = new Vector(firstX + lengthShip, firstY);
@@ -159,7 +159,7 @@ public class UserInterface {
 		  System.out.println("Enter the coordinates x and y to shot");
 		  yString = scanner.next();
 		  y = translate(yString);
-		  x = scanner.nextInt();
+		  x = scanner.nextInt()-1;
 		  shot = new Vector(x,y);
 		  valid = Util.isInputCorrect(shot);
 		  if (!valid)
@@ -220,12 +220,20 @@ public class UserInterface {
 	  game.placeShips(aiArmy, Actor.AI);
 	  
 	  while (!game.isFinished()) {
-		  printer.printGame(game);
-		  shot = askForShot();
+		  printer.displayTurn(game.getTurn());
+		  if (this.game.getTurn() == Actor.PLAYER) {
+		  	shot = askForShot();
+		  }
+		  else {
+			  shot = AI.aIShoot();
+			  System.out.println ("CPU is playing...");			  
+		  }
 		  shotResult = game.shoot(shot, this.game.getTurn());
-		  this.game.changeTurn();
-		  printer.printGame(game);
-		  printer.displayResultOfShoot(shotResult);			  
+		  System.out.print (game.getTurn());	
+		  printer.displayResultOfShoot(shotResult);	
+		  if (shotResult != ShootResult.ERROR)
+			  this.game.changeTurn();	
+		  printer.printGame(game);		  
 	  };	 	  
   }
  }

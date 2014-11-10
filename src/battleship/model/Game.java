@@ -27,7 +27,7 @@ public class Game {
   public Game() {
 	  this.winner = null;
 	  this.isFinished = false;
-	  this.aiBoard =  new Board (DIM_X,DIM_Y, false);
+	  this.aiBoard =  new Board (DIM_X,DIM_Y, true);
 	  this.playerBoard =  new Board (DIM_X,DIM_Y, false);
 	  this.turn = Actor.PLAYER; //Player always starts to play
 	  this.result = null;
@@ -56,7 +56,7 @@ public class Game {
 		 } else if (turn == Actor.PLAYER) {
 			 tmpboard = this.aiBoard;
 		 }
-		 result = tmpboard.markShot(shot); 
+		 result = tmpboard.markShot(shot,turn); 
 		 if (tmpboard.checkWinGame()) {
 			result = ShootResult.WIN;		
 		 }

@@ -10,7 +10,7 @@ public class AI {
 	final static int NUMBER_OF_DIFERENT_SHIPS = 4;
 	final static int SIZE_OF_BOARD = 10;
 	
-	public Vector aIShoot() { //Very rudimentary function just in order to have something for the first merge
+	public static Vector aIShoot() { //Very rudimentary function just in order to have something for the first merge
 		Random randomGenerator = new Random();
 		Vector vector = new Vector (randomGenerator.nextInt(SIZE_OF_BOARD), randomGenerator.nextInt(SIZE_OF_BOARD));
 		
@@ -33,7 +33,7 @@ public class AI {
 			    	} while (!validShip(initialVector, finalVector)); //But hey I don't judge
 			    	armyOfShips.appendShip(initialVector, finalVector); //Now you're gay for my code
 			    } //PS: If you don't get this reference watch Silicon Valley, it's fucking great, also Pulp Fiction
-		    }
+		    }//Your so cool code doesn't work properly :). Fdo: Fran
 		    return armyOfShips;
 	  }
   
