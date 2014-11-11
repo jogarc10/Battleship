@@ -2,9 +2,12 @@ package battleship.controller;
 
 import java.util.Random;
 
+import battleship.model.Actor;
+import battleship.model.Board;
 import battleship.util.Army;
 import battleship.util.Util;
 import battleship.util.Vector;
+import battleship.model.Game;
 
 public class AI {
 	final static int NUMBER_OF_DIFERENT_SHIPS = 4;
@@ -17,25 +20,25 @@ public class AI {
 		return vector;
 	}
 	
-	public static Army generateShips() {
+	public static void generateShips(Game game) {
 		Army armyOfShips = new Army(SIZE_OF_BOARD);
 		Vector initialVector = new Vector(0, 0), finalVector = new Vector(0, 0);
 		Random randomGenerator = new Random();
-    
+		if (game.getTurn() == Actor.PLAYER)
+			game.changeTurn();
+		
 	    for (int i = 0; i < NUMBER_OF_DIFERENT_SHIPS; ++i) { //Look at this motherfucking beautiful code
 			    for (int j = 0; j < i + 1; ++j) { //Seriously it's fucking beautiful
 			    	do { //I fricikng love do while loops
 			    		randomGenerator = new Random();
-			    		initialVector = new Vector(0,0);
-			    		initialVector.setX(randomGenerator.nextInt(SIZE_OF_BOARD)); //It's so fucking beautiful I wanna jerk to it
-			    		initialVector.setY(randomGenerator.nextInt(SIZE_OF_BOARD)); //And you know you might
+			    		initialVector = new Vector(randomGenerator.nextInt(SIZE_OF_BOARD), randomGenerator.nextInt(SIZE_OF_BOARD));
 			    		finalVector = newRandomEndOfShip(initialVector, NUMBER_OF_DIFERENT_SHIPS + 1 - i);
-			    	} while (!validShip(initialVector, finalVector)); //But hey I don't judge
+			    	} while (!validShip(initialVector, finalVector) || !Util.areValidArmyPositions(initialVector, finalVector, game.getAiBoard())); //But hey I don't judge
 			    	armyOfShips.appendShip(initialVector, finalVector); //Now you're gay for my code
+			    	game.placeShips(armyOfShips, game.getTurn());
 			    } //PS: If you don't get this reference watch Silicon Valley, it's fucking great, also Pulp Fiction
-		    }//Your so cool code doesn't work properly :). Fdo: Fran
-		    return armyOfShips;
-	  }
+	    }//Your so cool code doesn't work properly :). Fdo: Fran
+	}
   
 	private static Vector newRandomEndOfShip(Vector initialShipVector, int length) {
 		Vector finalShipVector = new Vector(initialShipVector.getX(), initialShipVector.getY());
@@ -53,11 +56,11 @@ public class AI {
 		  
 		return finalShipVector;
 	}
-  
-	private static boolean validShip(Vector begging, Vector end) { //This function could probably go into util
+	
+	private static boolean validShip(Vector beggining, Vector end) { //This function could probably go into util
 		boolean valid = false; //I know it's awesome
 
-		 if (Util.isInputCorrect(begging) && Util.isInputCorrect(end)) //Simple yet powerful
+		 if (Util.isInputCorrect(beggining) && Util.isInputCorrect(end)) //Simple yet powerful
 			 valid = true; //Elegant yet it does the job
 		
 		return valid; //Don't be mad Borja
