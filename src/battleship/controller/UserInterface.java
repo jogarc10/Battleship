@@ -211,14 +211,13 @@ public class UserInterface {
 	  Vector shot;
 	  ShootResult shotResult;
 	  
-	  battleship.controller.AI.generateShips(this.game); //Debugging
-	  
 	  printer.printGame(game);
 	  Army playerArmy = askBoatPlaces();
 	  
 	  game.placeShips(playerArmy, Actor.PLAYER);
 	  
-	  //game.placeShips(aiArmy, Actor.AI);
+	  Army aiArmy = battleship.controller.AI.generateShips();
+	  game.placeShips(aiArmy, Actor.AI);
 	  
 	  while (!game.isFinished()) {
 		  printer.displayTurn(game.getTurn());

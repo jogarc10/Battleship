@@ -27,7 +27,7 @@ public class Game {
   public Game() {
 	  this.winner = null;
 	  this.isFinished = false;
-	  this.aiBoard =  new Board (DIM_X,DIM_Y, false); //Debugging
+	  this.aiBoard =  new Board (DIM_X,DIM_Y, true);
 	  this.playerBoard =  new Board (DIM_X,DIM_Y, false);
 	  this.turn = Actor.PLAYER; //Player always starts to play
 	  this.result = null;
