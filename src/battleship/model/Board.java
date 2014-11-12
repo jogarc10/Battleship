@@ -171,54 +171,56 @@ public class Board {
 		int tileCounter = 1, shipColumn;
 		boolean horizontalShipLeft = true, horizontalShipRight = true;
 		
-		shipColumn = y; // Columna más a la izquierda donde empieza el barco 
+		shipColumn = y; // Columna mÃ¡s a la izquierda donde empieza el barco 
 		tile = board[x][y].getTile();
 		
-		for (int i = 1; i <= 5; i++) {
+		if (tile != Tile.WATER && tile != Tile.WATER) {
+			for (int i = 1; i <= 5; i++) {
 
-			// Si la celda de la izquierda es un barco
-			// y además no hay fog. Entonces suma uno al contador y
-			// guarda la columna para saber dónde empieza el barco.
-			
-			if ((horizontalShipLeft) && (y - i >= 0)) 
-			{
-				if ((board[x][y - i].getTile() == tile) && !(board[x][y - i].isFog())) {
-					tileCounter++;
-					shipColumn = y - i;
+				// Si la celda de la izquierda es un barco
+				// y ademas no hay fog. Entonces suma uno al contador y
+				// guarda la columna para saber dÃ³nde empieza el barco.
+				
+				if ((horizontalShipLeft) && (y - i >= 0)) 
+				{
+					if ((board[x][y - i].getTile() == tile) && !(board[x][y - i].isFog())) {
+						tileCounter++;
+						shipColumn = y - i;
+					}
+					else {
+						horizontalShipLeft = false;
+					}				
 				}
 				else {
-					horizontalShipLeft = false;
-				}				
-			}
-			else {
-				horizontalShipLeft = false; // no hay un barco a la izquierda
-			}
-			
-			// Si la celda de la derecha es un barco
-			// y además no hay fog. Entonces suma uno al contador.
-			
-			if ((horizontalShipRight) && (y + i < width)) {
-				if ((board[x][y + i].getTile() == tile) && !(board[x][y + i].isFog())) {
-					tileCounter++;
+					horizontalShipLeft = false; // no hay un barco a la izquierda
+				}
+				
+				// Si la celda de la derecha es un barco
+				// y ademÃ¡s no hay fog. Entonces suma uno al contador.
+				
+				if ((horizontalShipRight) && (y + i < width)) {
+					if ((board[x][y + i].getTile() == tile) && !(board[x][y + i].isFog())) {
+						tileCounter++;
+					}
+					else {
+						horizontalShipRight = false; 
+					}				
 				}
 				else {
-					horizontalShipRight = false; 
-				}				
-			}
-			else {
-				horizontalShipRight = false; // no hay un barco a la derecha
+					horizontalShipRight = false; // no hay un barco a la derecha
+				}	
 			}	
-		}	
 
-		// Si el contador es mayor o igual que dos. Entonces se ha formado un barco.
-		// Por lo tanto empezando desde el punto donde empieza el barco. Marcará el resto de 
-		// celdas como hundidas.
-		
-		if (tileCounter >= 2) {
-			for (int i = 0; i < tileCounter; i++) {
-				board[x][shipColumn + i].setTile(Tile.SUNKEN);
+			// Si el contador es mayor o igual que dos. Entonces se ha formado un barco.
+			// Por lo tanto empezando desde el punto donde empieza el barco. MarcarÃ¡ el resto de 
+			// celdas como hundidas.
+			
+			if (tileCounter >= 2) {
+				for (int i = 0; i < tileCounter; i++) {
+					board[x][shipColumn + i].setTile(Tile.SUNKEN);
+				}
 			}
-		}
+		}		
 	}
 	
 	/**
@@ -234,49 +236,51 @@ public class Board {
 		shipRow = x; // Fila superior donde empieza el barco 
 		tile = board[x][y].getTile();
 		
-		for (int i = 1; i <= 5; i++) {
-
-			// Si la celda de la izquierda es un barco
-			// y además no hay fog. Entonces suma uno al contador y
-			// guarda la columna para saber dónde empieza el barco.
-			
-			if ((shipTop) && (x - i >= 0)) 
-			{
-				if ((board[x - i][y].getTile() == tile) && !(board[x - i][y].isFog())) {
-					tileCounter++;
-					shipRow = x - i;
+		if (tile != Tile.WATER && tile != Tile.WATER) {
+			for (int i = 1; i <= 5; i++) {
+	
+				// Si la celda de la izquierda es un barco
+				// y ademÃ¡s no hay fog. Entonces suma uno al contador y
+				// guarda la columna para saber dÃ³nde empieza el barco.
+				
+				if ((shipTop) && (x - i >= 0)) 
+				{
+					if ((board[x - i][y].getTile() == tile) && !(board[x - i][y].isFog())) {
+						tileCounter++;
+						shipRow = x - i;
+					}
+					else {
+						shipTop = false;
+					}				
 				}
 				else {
-					shipTop = false;
-				}				
-			}
-			else {
-				shipTop = false; // no hay un barco a la izquierda
-			}
-			
-			// Si la celda de la derecha es un barco
-			// y además no hay fog. Entonces suma uno al contador.
-			
-			if ((shipBottom) && (x + i < height)) {
-				if ((board[x + i][y].getTile() == tile) && !(board[x + i][y].isFog())) {
-					tileCounter++;
+					shipTop = false; // no hay un barco a la izquierda
+				}
+				
+				// Si la celda de la derecha es un barco
+				// y ademÃ¡s no hay fog. Entonces suma uno al contador.
+				
+				if ((shipBottom) && (x + i < height)) {
+					if ((board[x + i][y].getTile() == tile) && !(board[x + i][y].isFog())) {
+						tileCounter++;
+					}
+					else {
+						shipBottom = false; 
+					}				
 				}
 				else {
-					shipBottom = false; 
-				}				
-			}
-			else {
-				shipBottom = false; // no hay un barco a la derecha
+					shipBottom = false; // no hay un barco a la derecha
+				}	
 			}	
-		}	
-
-		// Si el contador es mayor o igual que dos. Entonces se ha formado un barco.
-		// Por lo tanto empezando desde el punto donde empieza el barco. Marcará el resto de 
-		// celdas como hundidas.
-		
-		if (tileCounter >= 2) {
-			for (int i = 0; i < tileCounter; i++) {
-				board[x][shipRow + i].setTile(Tile.SUNKEN);
+	
+			// Si el contador es mayor o igual que dos. Entonces se ha formado un barco.
+			// Por lo tanto empezando desde el punto donde empieza el barco. MarcarÃ¡ el resto de 
+			// celdas como hundidas.
+			
+			if (tileCounter >= 2) {
+				for (int i = 0; i < tileCounter; i++) {
+					board[x][shipRow + i].setTile(Tile.SUNKEN);
+				}
 			}
 		}
 	}
