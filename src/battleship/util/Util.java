@@ -13,11 +13,11 @@ public class Util {
   static public boolean isInputCorrect(Vector coordinates) {
 	  boolean correct = true;
 
-	if ((coordinates.getX() < 0) || (coordinates.getX() >= Game.DIM_X))
+	if ((coordinates.getX() < 0) || (coordinates.getX() > Game.DIM_X))
 	 {
 		 correct = false;
 	 }
-	 if ((coordinates.getY() < 0) || (coordinates.getY() >= Game.DIM_Y))
+	 if ((coordinates.getY() < 0) || (coordinates.getY() > Game.DIM_Y))
 	 {
 		 correct = false;
 	 }
@@ -29,56 +29,43 @@ public class Util {
    *    Returns true if the placement of the Army is correct
    */
   static public boolean areValidArmyPositions(Vector from, Vector to, Board board) {
-  boolean valid;
-  String orientation = null;
+  boolean vertical, horizontal, valid;
+  vertical = horizontal = false;
   valid = true;
   int coordinate = 0;
   
   if (from.getX() == to.getX())
   {
-	  if (from.getY() > to.getY())
-	  		orientation = "From left to right";
-	  else
-			orientation = "From right to left";
+	  horizontal = true;
   }
   else if (from.getY() == to.getY())
   {
-	  if (from.getX() < to.getX())
-	  		orientation = "From up to down";
-	  else
-		  orientation = "From down to up";
-		  
+	  vertical = true;
   }
   
-  if (orientation == "From down to up" || orientation == "From up to down")
+  if (vertical)
   {
 	  coordinate = from.getX();
 	  while ((coordinate < to.getX()) && valid)
 	  {
-		  valid = CheckArround(coordinate, from.getY(), board, orientation);
-		  if (orientation == "From up to down")
-			  coordinate--;
-		  else
-			  coordinate++;
+		  valid = CheckArround(coordinate, from.getY(), board);
+		  coordinate++;
 	  }
   }
-  else if (orientation == "From right to left" || orientation == "From left to right")
+  else if (horizontal)
   {
 	  coordinate = from.getY();
-	  while ((coordinate < to.getY()) && valid)
+	  while ((coordinate < to.getY()) && valid )
 	  {
-		  valid = CheckArround(from.getX(), coordinate, board, orientation);
-		  if (orientation == "From left to right")
-			  coordinate++;
-		  else
-			  coordinate--;
+		  valid = CheckArround(from.getX(), coordinate, board);
+		  coordinate++;
 	  }
   }
 
   return valid;
  }
 
-/*static public boolean CheckArround (int x, int y, Board board)
+static public boolean CheckArround (int x, int y, Board board)
 {
 	boolean valid = true;
 	
@@ -116,45 +103,5 @@ public class Util {
 	}
 	
 	return valid;
-}*/
-	static public boolean CheckArround (int x, int y, Board board, String orientation) {
-		boolean valid = true;
-		
-		if (board.cellValue(x, y) == Tile.BOAT)
-			valid = false;
-		else if (orientation == "From left to right") {		
-			if (y < 9 && board.cellValue(x, y + 1) == Tile.BOAT)
-				valid = false;
-			if (x > 0 && board.cellValue(x - 1, y) == Tile.BOAT)
-				valid = false;
-			if (x < 9 && board.cellValue(x + 1, y) == Tile.BOAT)
-				valid = false;
-		}
-		else if (orientation == "From right to left") {
-			if (y > 0 && board.cellValue(x, y - 1) == Tile.BOAT)
-					valid = false;
-			if (x > 0 && board.cellValue(x - 1, y) == Tile.BOAT)
-				valid = false;
-			if (x < 9 && board.cellValue(x + 1, y) == Tile.BOAT)
-				valid = false;
-		}
-		else if (orientation == "From up to down") {
-			if (y > 0 && board.cellValue(x, y - 1) == Tile.BOAT)
-				valid = false;
-			if (y < 9 && board.cellValue(x, y + 1) == Tile.BOAT)
-				valid = false;
-			if (x < 9 && board.cellValue(x + 1, y) == Tile.BOAT)
-				valid = false;
-		}
-		else if (orientation == "From down to up") {
-			if (y > 0 && board.cellValue(x, y - 1) == Tile.BOAT)
-				valid = false;
-			if (y < 9 && board.cellValue(x, y + 1) == Tile.BOAT)
-				valid = false;
-			if (x > 0 && board.cellValue(x - 1, y) == Tile.BOAT)
-				valid = false;
-		}
-		
-		return valid;
-	}
+}
 }

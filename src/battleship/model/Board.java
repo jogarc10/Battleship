@@ -3,7 +3,6 @@ package battleship.model;
 import battleship.util.Ship;
 import battleship.util.Vector;
 import battleship.util.Army;
-import java.lang.Math;
 
 public class Board {
 	private int width;
@@ -297,11 +296,11 @@ public class Board {
 		for (int i = 0; i < ships.getCount(); i++) {
 			shipLength = 0;
 			
-			originX = armyShips[i].getFrom().getX();
-			originY = armyShips[i].getFrom().getY();
-			endX = armyShips[i].getTo().getX();
-			endY = armyShips[i].getTo().getY();
-			
+			originX = armyShips[i].getTo().getX();
+			originY = armyShips[i].getTo().getY();
+			endX = armyShips[i].getFrom().getX();
+			endY = armyShips[i].getFrom().getY();
+
 			horizontalShip = false;
 			verticalShip = false;
 			
@@ -316,18 +315,12 @@ public class Board {
 			}
 			
 			// Place the Ships on the board
-			for (int shipIndex = 0; shipIndex < Math.abs(shipLength); shipIndex++) {
+			for (int shipIndex = 0; shipIndex < shipLength; shipIndex++) {
 				if (horizontalShip) {
-					if (shipLength > 0)
-						board[originX][originY + shipIndex].setTile(Tile.BOAT); /* Inicializar celda a Boat */
-					else
-						board[originX][originY - shipIndex].setTile(Tile.BOAT);
+					board[originX][originY + shipIndex].setTile(Tile.BOAT); /* Inicializar celda a Boat */
 				}
 				else if (verticalShip) {
-					if (shipLength > 0)
-						board[originX + shipIndex][originY].setTile(Tile.BOAT); /* Inicializar celda a Boat */
-					else
-						board[originX - shipIndex][originY].setTile(Tile.BOAT);
+					board[originX + shipIndex][originY].setTile(Tile.BOAT); /* Inicializar celda a Boat */
 				}
 			}
 		}
