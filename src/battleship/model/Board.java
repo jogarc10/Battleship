@@ -130,10 +130,7 @@ public class Board {
 				//   (ver si el resto de celdas están con fog = false)
 				// 2. En caso de que se haya hundido, marcarlo en el tablero.
 				result = ShootResult.HIT;
-				//if(is_sunken(coordinates)) {
-					//setSunkenShip(coordinates); 
-					//HAY QUE HACER LA FUNCION QUE HAGA CHECK DE SI EL BARCO HA SIDO HUNDIDO
-					//}
+				setSunkenShip(coordinates); 
 			}
 			else if (tile == Tile.EMPTY) {
 				result = ShootResult.MISS; // Miss!!
@@ -296,10 +293,10 @@ public class Board {
 		for (int i = 0; i < ships.getCount(); i++) {
 			shipLength = 0;
 			
-			originX = armyShips[i].getTo().getX();
-			originY = armyShips[i].getTo().getY();
-			endX = armyShips[i].getFrom().getX();
-			endY = armyShips[i].getFrom().getY();
+			originX = armyShips[i].getFrom().getX();
+			originY = armyShips[i].getFrom().getY();
+			endX = armyShips[i].getTo().getX();
+			endY = armyShips[i].getTo().getY();
 
 			horizontalShip = false;
 			verticalShip = false;
@@ -307,11 +304,11 @@ public class Board {
 			// Knows if the ship is horizontal or vertical
 			if (originX  == endX) {
 				horizontalShip = true; // Ship with the same x
-				shipLength =  endY - originY; // Example: (2,2) y (2,4) > 4 - 2 = 2 + 1 = 3
+				shipLength =  endY - originY + 1; // Example: (2,2) y (2,4) > 4 - 2 = 2 + 1 = 3
 			}
 			else if (originY  == endY) {
 				verticalShip = true; // Ship with the same y
-				shipLength =  endX - originX; // Example: (1,1) y (5,1) > 5 - 1 = 4 + 1 = 5 
+				shipLength =  endX - originX + 1; // Example: (1,1) y (5,1) > 5 - 1 = 4 + 1 = 5 
 			}
 			
 			// Place the Ships on the board

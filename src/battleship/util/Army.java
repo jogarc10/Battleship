@@ -22,7 +22,7 @@ public class Army {
 	
 	public void appendShip(Vector to, Vector from)
 	{
-		this.ships[this.count] = new Ship(to, from);
+		this.ships[this.count] = new Ship(from, to);
 		this.setCount(this.getCount() + 1);
 	}
 

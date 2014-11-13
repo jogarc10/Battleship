@@ -1,15 +1,10 @@
 package battleship.model;
 
+import battleship.util.Util;
 import battleship.util.Vector;
 import battleship.util.Army;
 
 public class Game {
-
-  public static final short DIM_X = 10;
-  /* {src_modifiers=static}*/
-
-  public static final short DIM_Y = 10;
-  /* {src_modifiers=static}*/
 
   private boolean isFinished;
 
@@ -27,8 +22,8 @@ public class Game {
   public Game() {
 	  this.winner = null;
 	  this.isFinished = false;
-	  this.aiBoard =  new Board (DIM_X,DIM_Y, true);
-	  this.playerBoard =  new Board (DIM_X,DIM_Y, false);
+	  this.aiBoard =  new Board (Util.DIM_X,Util.DIM_Y, true); //PONER FALSE PARA VER EL TABLERO DE LA CPU, PERO NO SE PUEDE JUGAR! TRUE PARA OCULTARLO Y JUGAR
+	  this.playerBoard =  new Board (Util.DIM_X,Util.DIM_Y, false);
 	  this.turn = Actor.PLAYER; //Player always starts to play
 	  this.result = null;
   }

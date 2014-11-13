@@ -27,13 +27,13 @@ public class Printer {
   		
   		switch(result) {
   			case HIT: {
-  				System.out.println(" HIT A BOAT!\n");
+  				System.out.println(" HIT A BOAT!");
   			}break;
   			case MISS: {
-  				System.out.println(" MISSED THE SHOT!\n");
+  				System.out.println(" MISSED THE SHOT!");
   			}break;
   			case WIN: {
-  				System.out.println(" SUNK ALL THE BOATS! CONGRATULATIONS\n");
+  				System.out.println(" SUNK ALL THE BOATS! CONGRATULATIONS");
   			}break;
   			case ERROR: {
   				System.out.println(" HAVVE ALREADY SHOT THIS POSITION. TRY AGAIN");

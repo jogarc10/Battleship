@@ -13,8 +13,6 @@ import battleship.view.Printer;
 
 public class UserInterface {
 	
-  private final int SHIP_NUMBER = 10;
-
   private Scanner scanner;
   private Game game;
   private Printer printer;
@@ -49,7 +47,7 @@ public class UserInterface {
    *    -> Return an instance of Army with those locations
    */
   public Army askBoatPlaces() {//was type Army before but i think is better void
-	  Army army = new Army(SHIP_NUMBER);
+	  Army army = new Army(Util.SHIP_NUMBER);
 	  Integer boatNumber = new Integer(1);
 	  Integer boatDimension = new Integer(5);
 	  this.from = new Vector(0,0);
@@ -121,16 +119,16 @@ public class UserInterface {
 		  dirString = scanner.nextLine();
 		  dirString = dirString.toLowerCase();
 		  if(dirString.equals("vertical")) {
-			  if (firstX + lengthShip -1 < Game.DIM_Y)
-				  this.to = new Vector(firstX + lengthShip, firstY);
+			  if (firstX + lengthShip -1 < Util.DIM_Y)
+				  this.to = new Vector(firstX + lengthShip-1, firstY);
 			  else {
 				  validCord = false;
 			  	  System.out.println("A portion of the ship is placed out of bounds.Try again \n ");
 			  }
 		  }
 		  else if (dirString.equals("horizontal")){
-			  if (firstY + lengthShip -1 < Game.DIM_X)
-				  this.to = new Vector(firstX, firstY + lengthShip);
+			  if (firstY + lengthShip -1 < Util.DIM_X)
+				  this.to = new Vector(firstX, firstY + lengthShip-1);
 			  else {
 				  validCord = false;
 				  System.out.println("A portion of the ship is placed out of bounds.Try again \n ");
@@ -210,7 +208,7 @@ public class UserInterface {
   public void battleship () {	  
 	  Vector shot;
 	  ShootResult shotResult;
-	  
+	  	  	  
 	  printer.printGame(game);
 	  Army playerArmy = askBoatPlaces();
 	  
