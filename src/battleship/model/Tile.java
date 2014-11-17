@@ -4,5 +4,6 @@ public enum Tile {
 	EMPTY,
 	WATER,
 	BOAT,
+	HIT,
 	SUNKEN
 }

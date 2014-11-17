@@ -49,7 +49,7 @@ public class Board {
 		}
 	}
 
-	public String toString() {	
+	public String toString(Actor turn) {	
 		
 		String strBoard = "";
 		Tile t = Tile.EMPTY;
@@ -77,12 +77,11 @@ public class Board {
 				hasFog = false;
 				if(board[i][j].isFog())
 					hasFog = true;
-				else
-					t = board[i][j].getTile();
+				t = board[i][j].getTile();
 				
 				strBoard += "|";
 			  
-				if (hasFog ||t == Tile.EMPTY ) {
+				if ((hasFog && turn == Actor.AI) ||t == Tile.EMPTY ) {
 					strBoard = strBoard + "_ _";
 				}
 				else if (t == Tile.WATER) {
@@ -90,6 +89,9 @@ public class Board {
 				}
 				else if (t == Tile.BOAT) {
 					strBoard = strBoard + "_B_";
+				}
+				else if (t == Tile.HIT) {
+					strBoard = strBoard + "_H_";
 				}
 				else if (t == Tile.SUNKEN) {
 					strBoard = strBoard + "_X_";
@@ -113,6 +115,7 @@ public class Board {
    */
 	public ShootResult markShot(Vector coordinates, Actor turn) {
 		int x, y;
+
 		Tile tile = Tile.EMPTY;
 		ShootResult result = ShootResult.ERROR;
 	  
@@ -130,7 +133,8 @@ public class Board {
 				//   (ver si el resto de celdas están con fog = false)
 				// 2. En caso de que se haya hundido, marcarlo en el tablero.
 				result = ShootResult.HIT;
-				setSunkenShip(coordinates); 
+				board[x][y].setTile(Tile.HIT);
+				//setSunkenShip(coordinates);
 			}
 			else if (tile == Tile.EMPTY) {
 				result = ShootResult.MISS; // Miss!!
@@ -146,15 +150,17 @@ public class Board {
 	/** Function para saber si el barco se ha hundido o no **/
 	/** Y en caso de hundido, marcar las celdas **/
 	
-	public void setSunkenShip(Vector coords) {
+	public boolean setSunkenShip(Vector coords) {
 		int x, y;
+		boolean sunken = false;
 		
 		x = coords.getX();
 		y = coords.getY();
 		
-		horizontalShip(x, y); // updates the board with the sunken ships
-		verticalShip(x, y); // updates the board with the sunken ships
+		sunken = horizontalShip(x, y); // updates the board with the sunken ships
+		sunken = verticalShip(x, y); // updates the board with the sunken ships
 		
+		return sunken;
 	}
 	
 	/**
@@ -162,7 +168,8 @@ public class Board {
 	 *	-> If it's formed, then marked on the board
 	*/
 	
-	public void horizontalShip(int x, int y) {
+	public boolean horizontalShip(int x, int y) {
+		boolean sunken = false;
 		Tile tile;
 		int tileCounter = 1, shipColumn;
 		boolean horizontalShipLeft = true, horizontalShipRight = true;
@@ -170,7 +177,7 @@ public class Board {
 		shipColumn = y; // Columna mÃ¡s a la izquierda donde empieza el barco 
 		tile = board[x][y].getTile();
 		
-		if (tile != Tile.WATER && tile != Tile.WATER) {
+		if (tile != Tile.WATER && tile != Tile.BOAT) {
 			for (int i = 1; i <= 5; i++) {
 
 				// Si la celda de la izquierda es un barco
@@ -215,8 +222,10 @@ public class Board {
 				for (int i = 0; i < tileCounter; i++) {
 					board[x][shipColumn + i].setTile(Tile.SUNKEN);
 				}
+				sunken = true;
 			}
-		}		
+		}	
+		return sunken;
 	}
 	
 	/**
@@ -224,15 +233,16 @@ public class Board {
 	 *	-> If it's formed, then marked on the board
 	*/
 	
-	public void verticalShip(int x, int y) {
+	public boolean verticalShip(int x, int y) {
 		Tile tile;
+		boolean sunken = true;
 		int tileCounter = 1, shipRow;
 		boolean shipTop = true, shipBottom = true;
 		
 		shipRow = x; // Fila superior donde empieza el barco 
 		tile = board[x][y].getTile();
 		
-		if (tile != Tile.WATER && tile != Tile.WATER) {
+		if (tile != Tile.WATER && tile != Tile.BOAT) {
 			for (int i = 1; i <= 5; i++) {
 	
 				// Si la celda de la izquierda es un barco
@@ -275,10 +285,12 @@ public class Board {
 			
 			if (tileCounter >= 2) {
 				for (int i = 0; i < tileCounter; i++) {
-					board[x][shipRow + i].setTile(Tile.SUNKEN);
+					board[shipRow + i][y].setTile(Tile.SUNKEN);
 				}
+				sunken = true;
 			}
 		}
+		return sunken;
 	}
 	
 	/**

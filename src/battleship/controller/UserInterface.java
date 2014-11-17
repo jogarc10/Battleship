@@ -57,7 +57,7 @@ public class UserInterface {
 	  
 	  System.out.println("Insert your positions for the ships");
 	  
-	  while(boatDimension > 3){//TODO: change for 1, placeholder for debugging
+	  while(boatDimension > 1){//TODO: change for 1, placeholder for debugging
 		  System.out.println("Ship dimension: " + boatDimension.toString() + 
 				  				". You have " + boatNumber.toString() + 
 				  				" boat(s) still to place of this size.");
@@ -156,6 +156,7 @@ public class UserInterface {
 	  do {
 		  System.out.println("Enter the coordinates x and y to shot");
 		  yString = scanner.next();
+		  yString = yString.toLowerCase();
 		  y = translate(yString);
 		  x = scanner.nextInt()-1;
 		  shot = new Vector(x,y);
@@ -208,30 +209,65 @@ public class UserInterface {
   public void battleship () {	  
 	  Vector shot;
 	  ShootResult shotResult;
-	  	  	  
-	  printer.printGame(game);
-	  Army playerArmy = askBoatPlaces();
 	  
-	  game.placeShips(playerArmy, Actor.PLAYER);
 	  
-	  Army aiArmy = battleship.controller.AI.generateShips();
-	  game.placeShips(aiArmy, Actor.AI);
-	  
-	  while (!game.isFinished()) {
-		  printer.displayTurn(game.getTurn());
-		  if (this.game.getTurn() == Actor.PLAYER) {
-		  	shot = askForShot();
+	  while (startMenu()){
+		  printer.printGame(game);
+		  Army playerArmy = askBoatPlaces();
+		  
+		  game.placeShips(playerArmy, Actor.PLAYER);
+		  
+		  Army aiArmy = battleship.controller.AI.generateShips();
+		  game.placeShips(aiArmy, Actor.AI);
+		  
+		  while (!game.isFinished()) {
+			  printer.displayTurn(game.getTurn());
+			  if (this.game.getTurn() == Actor.PLAYER) {
+			  	shot = askForShot();
+			  }
+			  else {
+				  shot = AI.aIShoot();
+				  System.out.println ("CPU is playing...");			  
+			  }
+			  shotResult = game.shoot(shot, this.game.getTurn());
+			  System.out.print (game.getTurn());	
+			  printer.displayResultOfShoot(shotResult);
+			  pause();
+			  if (shotResult != ShootResult.ERROR)
+				  this.game.changeTurn();	
+			  printer.printGame(game);		  
 		  }
-		  else {
-			  shot = AI.aIShoot();
-			  System.out.println ("CPU is playing...");			  
-		  }
-		  shotResult = game.shoot(shot, this.game.getTurn());
-		  System.out.print (game.getTurn());	
-		  printer.displayResultOfShoot(shotResult);	
-		  if (shotResult != ShootResult.ERROR)
-			  this.game.changeTurn();	
-		  printer.printGame(game);		  
-	  };	 	  
+	  }
   }
+  
+	public boolean startMenu() {
+  		boolean play = false, valid = false;
+  		int option;
+  		while(!valid) {
+	  		Printer.displayTitle();
+	  		System.out.println ("\n                       SELECT AN OPTION \n");
+	  		System.out.println ("                       1.PLAY BATTLESHIP");
+	  		System.out.println ("                       2.PLAY HALF LIFE 3 (CODING...)");
+	  		System.out.println ("                       0.EXIT\n");
+	  		System.out.print ("                       OPTION: ");
+	  		option = scanner.nextInt();
+	  		if (option == 1) {
+	  			play = true;
+	  			valid = true;
+	  		}
+	  		else if (option == 0) {
+	  			play = false;
+	  			valid = true;
+	  		}
+	  		for (int i = 0; i < 15; ++i) System.out.println(".");
+  		}		
+  		return play;  		
+  	}
+	
+	 public void pause() {
+		 System.out.print("PRESS ENTER TO CONTINUE.....");
+		 scanner.nextLine();
+		 scanner.nextLine();
+		 System.out.println();
+	 }
  }
