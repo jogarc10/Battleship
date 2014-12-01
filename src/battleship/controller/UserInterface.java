@@ -3,9 +3,7 @@ package battleship.controller;
 import battleship.model.Actor;
 import battleship.model.Game;
 import battleship.model.ShootResult;
-
 import java.util.Scanner;
-
 import battleship.util.Army;
 import battleship.util.Util;
 import battleship.util.Vector;

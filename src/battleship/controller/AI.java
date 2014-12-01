@@ -66,7 +66,9 @@ public class AI {
 			 }  		 
 		  armyOfShips.appendShip(finalVector,initialVector);	  
 	  }
-	
+
+	//This part of the code is deprecated, probably will get deleted eventually
+
 	/*public static Army generateShips() {
 		Army armyOfShips = new Army(Util.SIZE_OF_BOARD);
 		Vector initialVector = new Vector(0, 0), finalVector = new Vector(0, 0);
@@ -104,7 +106,4 @@ public class AI {
 		return finalShipVector;
 	}
 	*/
-  
-	  
-	 
 }
